@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './pangolin/index.ts',
+  entry: './pangolin/main.ts',
   module: {
     rules: [
       {

@@ -6,19 +6,19 @@ export interface ITileIndex{
 }
 
 export class Sprite {
-  private tile: Tile;
+  private tile: string;
   private tileIndex: ITileIndex;
   private xScale: number;
   private yScale: number;
 
-  constructor(tile: Tile, tileIndex: ITileIndex, xScale: number = 1, yScale: number = 1){
+  constructor(tile: string, tileIndex: ITileIndex, xScale: number = 1, yScale: number = 1){
     this.tile = tile;
     this.tileIndex = tileIndex;
     this.xScale = xScale;
     this.yScale = yScale;
   }
 
-  getTile(): Tile{
+  getTile(): string{
     return this.tile;
   }
 
