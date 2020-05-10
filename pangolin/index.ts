@@ -3,6 +3,7 @@ import {Entity} from './Entity';
 import {GraphicEntity} from './GraphicEntity';
 import {Room} from './Room';
 import {Sprite} from './Sprite';
+import {Animation} from './Animation';
 import {Tile} from './Tile';
 
 export default{
@@ -11,5 +12,6 @@ export default{
   GraphicEntity,
   Room,
   Sprite,
+  Animation,
   Tile
 }
