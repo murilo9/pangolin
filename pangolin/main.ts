@@ -30,32 +30,54 @@ export class Game{
     this._instance = new Game();
   }
 
-  public static run(){
+  public static _run(){
+    this.moveEntities();
+    this.runEntities();
+    this.renderEntities();
+  }
+
+  private static moveEntities(){
+    this._instance.currentRoom.entities.forEach(entity => {
+      if(entity instanceof GraphicEntity){
+        entity._refreshPosition();
+      }
+    })
+    this._instance.currentRoom.handleCollisions(this._instance.gameCanvas);
+  }
+
+  private static runEntities(){
+    this._instance.currentRoom.entities.forEach(entity => {
+      entity.run();
+    })
+  }
+
+  private static renderEntities(){
     const canvas = this._instance.gameCanvas;
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
-    this._instance.currentRoom.entities.forEach((entity: GraphicEntity) =>{
-      let sprite = entity._getSprite();
-      let tile = this.getCachedTile(sprite.getTile());
-      let img = tile.getElement();
-      let tileIndex = sprite.getTileIndex();
-      let sx = tileIndex.x * tile.getSizeX();
-      let sy = tileIndex.y * tile.getSizeY();
-      let sWidth = tile.getSizeX();
-      let sHeight = tile.getSizeY();
-      let dx = entity._get('_x');
-      let dy = entity._get('_y');
-      let rotation = sprite.getRotation();
-      let flipHor = sprite.getFlipHor();
-      let flipVer = sprite.getFlipVer();
-      let dWidth = sprite.getXScale() * (flipHor ? -sWidth : sWidth);
-      let dHeight = sprite.getYScale() * (flipVer ? -sHeight : sHeight);
-      ctx.rotate(rotation * Math.PI / 180);
-      //console.log(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-      ctx.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-      ctx.restore();
+    this._instance.currentRoom.entities.forEach((entity) =>{
+      if(entity instanceof GraphicEntity){
+        let sprite = entity._getSprite();
+        let tile = this.getCachedTile(sprite.getTile());
+        let img = tile.getElement();
+        let tileIndex = sprite.getTileIndex();
+        let sx = tileIndex.x * tile.getSizeX();
+        let sy = tileIndex.y * tile.getSizeY();
+        let sWidth = tile.getSizeX();
+        let sHeight = tile.getSizeY();
+        let dx = entity._get('_x');
+        let dy = entity._get('_y');
+        let rotation = sprite.getRotation();
+        let flipHor = sprite.getFlipHor();
+        let flipVer = sprite.getFlipVer();
+        let dWidth = sprite.getXScale() * (flipHor ? -sWidth : sWidth);
+        let dHeight = sprite.getYScale() * (flipVer ? -sHeight : sHeight);
+        ctx.rotate(rotation * Math.PI / 180);
+        ctx.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        ctx.restore();
+      }
     })
   }
 
@@ -65,4 +87,4 @@ export class Game{
 }
 
 Game.init();
-setInterval((() => Game.run()), 20);
+setInterval((() => Game._run()), 20);
