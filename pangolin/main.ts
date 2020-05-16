@@ -3,6 +3,7 @@ import { Tile } from "./Tile";
 import { Room } from "./Room";
 import tile1 from '../src/tiles/main.png';
 import { GraphicEntity } from "./GraphicEntity";
+import { PhysicEntity } from "./PhysicEntity";
 import { Sprite } from "./Sprite";
 import gameSets from '../src/main';
 
@@ -26,32 +27,49 @@ export class Game{
     this.currentRoom = gameSets.configs.initialRoom;
   }
 
+  /**
+   * Initializes the game. Called outside Game class.
+   */
   public static init(){
     this._instance = new Game();
   }
 
+  /**
+   * Runs the current cycle. Called at setInterval() outside Game class every frame.
+   */
   public static _run(){
-    this.moveEntities();
-    this.runEntities();
-    this.renderEntities();
+    this._moveEntities();
+    this._runEntities();
+    this._renderEntities();
   }
 
-  private static moveEntities(){
+  /**
+   * Iterates every Graphic/Physic entity of current room at current cycle to 
+   * refresh their _x, _y position in function of their _vSpeed and _hSpeed.
+   */
+  private static _moveEntities(){
     this._instance.currentRoom.entities.forEach(entity => {
-      if(entity instanceof GraphicEntity){
+      if(entity instanceof GraphicEntity || entity instanceof PhysicEntity){
         entity._refreshPosition();
       }
     })
-    this._instance.currentRoom.handleCollisions(this._instance.gameCanvas);
+    this._instance.currentRoom._handleCollisions(this._instance.gameCanvas);
   }
 
-  private static runEntities(){
+  /**
+   * Runs the run() of literally every entity of the current room at current cycle.
+   */
+  private static _runEntities(){
     this._instance.currentRoom.entities.forEach(entity => {
       entity.run();
     })
   }
 
-  private static renderEntities(){
+  /**
+   * Iterates every Graphic/Physic entity of the current room and draw 
+   * their sprite/animation frame at current cycle.
+   */
+  private static _renderEntities(){
     const canvas = this._instance.gameCanvas;
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;

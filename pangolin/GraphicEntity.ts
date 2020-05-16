@@ -4,7 +4,7 @@ import { Sprite } from './Sprite';
 export class GraphicEntity extends Entity {
   public _x: number;
   public _y: number;
-  private _sprite: Sprite;
+  protected _sprite: Sprite;
   protected _vSpeed: number;
   protected _hSpeed: number;
   
@@ -21,15 +21,25 @@ export class GraphicEntity extends Entity {
     this._visible = visible;
   }
 
-  _get(attr: string){
+  /**
+   * Gets an entity attribute.
+   * @param attr Attribute name
+   */
+  public _get(attr: string): any{
     return this[attr];
   }
 
-  _getSprite(){
+  /**
+   * Gets the entity sprite.
+   */
+  public _getSprite(): Sprite{
     return this._sprite;
   }
 
-  _refreshPosition(){
+  /**
+   * Refresh the entity's position at current cycle.
+   */
+  public _refreshPosition(): void{
     this._x += this._hSpeed;
     this._y += this._vSpeed;
   }

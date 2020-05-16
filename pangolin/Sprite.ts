@@ -14,9 +14,9 @@ export class Sprite {
   private flipVer: boolean;
   private flipHor: boolean;
 
-  constructor(tile: string, tileIndex: ITileIndex, xScale: number = 1, yScale: number = 1, 
+  constructor(tileName: string, tileIndex: ITileIndex, xScale: number = 1, yScale: number = 1, 
   rotation: number = 0, flipVer: boolean = false, flipHor: boolean = false){
-    this.tile = tile;
+    this.tile = tileName;
     this.tileIndex = tileIndex;
     this.xScale = xScale;
     this.yScale = yScale;
@@ -41,15 +41,15 @@ export class Sprite {
     return this.yScale;
   }
 
-  getRotation(){
+  getRotation(): number{
     return this.rotation;
   }
 
-  getFlipVer(){
+  getFlipVer(): boolean{
     return this.flipVer;
   }
 
-  getFlipHor(){
-    return this.getFlipHor;
+  getFlipHor(): boolean{
+    return this.flipHor;
   }
 }

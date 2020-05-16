@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist/lib && tsc && cp -r src/tiles dist",
+    "build": "webpack --development",
     "start": "http-server ./dist"
   },
   "keywords": [],

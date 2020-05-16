@@ -29,18 +29,30 @@ export class PhysicEntity extends GraphicEntity {
     this._static = _static;
   }
 
-  _refreshPosition(){
+  /**
+   * Refreshes the entity position at current frame.
+   */
+  public _refreshPosition(): void{
     this._x += this._hSpeed;
     this._y += this._vSpeed;
     this._collisionMask.instance.x = this._x;
     this._collisionMask.instance.y = this._y;
   }
 
-  getCollisionMask(): CollisionMask{
+  /**
+   * Gets the entity collision mask.
+   */
+  public getCollisionMask(): CollisionMask{
     return this._collisionMask;
   }
 
-  isStatic(): boolean{
-    return this._static;
+  /**
+   * Gets os sets the entity isStatic attribute.
+   */
+  public isStatic(set: boolean = null): boolean{
+    if(set !== null)
+      this._static = (set ? true : false);
+    else
+      return this._static;
   }
 }

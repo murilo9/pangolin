@@ -10,15 +10,25 @@ export class Tile {
     this.ySize = ySize;
   }
 
+  /**
+   * Gets the <img> element representing the tile.
+   */
   public getElement(): HTMLImageElement{
     return this.element;
   }
 
-  getSizeX(){
+  /**
+   * Gets the tile x grid width.
+   */
+  getSizeX(): number{
     return this.xSize;
   }
 
-  getSizeY(){
+  /**
+   * Gets the tile y grid height.
+   */
+
+  getSizeY(): number{
     return this.ySize;
   }
 }

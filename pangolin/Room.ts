@@ -14,14 +14,22 @@ export class Room {
     })
   }
 
-  pushEntity(entity: Entity){
+  /**
+   * Pushes an entity to the room.
+   * @param entity Entity to push
+   */
+  public pushEntity(entity: Entity){
     this.entities.push(entity);
     if(entity instanceof PhysicEntity){
       this.collisionSystem.insert(entity.getCollisionMask().instance);
     }
   }
 
-  handleCollisions(canvas: HTMLCanvasElement){
+  /**
+   * Process all room collisions.
+   * @param canvas For debugging entities' collision boxes
+   */
+  public _handleCollisions(canvas: HTMLCanvasElement){
     const ctx = canvas.getContext('2d');
     this.collisionSystem.update();
     const result = this.collisionSystem.createResult();

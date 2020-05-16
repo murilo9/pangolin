@@ -15,6 +15,9 @@ export class Animation extends Sprite {
     this.speed = speed;
   }
 
+  /**
+   * Gets the current tile index to be drawn.
+   */
   getTileIndex(){
     if(this.counter >= this.speed){
       this.counter = 0;
