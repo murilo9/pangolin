@@ -1,6 +1,7 @@
 import { Entity } from "./Entity";
 import Collisions from './collisions/src/Collisions';
 import { PhysicEntity } from "./PhysicEntity";
+import { GraphicEntity } from "./GraphicEntity";
 
 export class Room {
   public entities: Array<Entity>;
@@ -23,6 +24,12 @@ export class Room {
     if(entity instanceof PhysicEntity){
       this.collisionSystem.insert(entity.getCollisionMask().instance);
     }
+  }
+
+  public getDrawableEntities(): Array<PhysicEntity>{
+    return this.entities.filter(entity => 
+      (entity instanceof GraphicEntity || entity instanceof PhysicEntity)
+    ) as Array<PhysicEntity>;
   }
 
   /**

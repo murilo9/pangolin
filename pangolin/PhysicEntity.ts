@@ -22,9 +22,9 @@ export class PhysicEntity extends GraphicEntity {
   private _static: boolean;
 
   constructor(sprite: Sprite, collisionMask: CollisionMask, _static: boolean = false, 
-    x: number = 0, y: number = 0, vSpeed: number = 0, hSpeed: number = 0, 
-    visible: boolean = true){
-    super(sprite, x, y, vSpeed, hSpeed, visible);
+  x: number = 0, y: number = 0, depth: number = 0, vSpeed: number = 0, 
+  hSpeed: number = 0, visible: boolean = true){
+    super(sprite, x, y, depth, vSpeed, hSpeed, visible);
     this._collisionMask = collisionMask;
     this._static = _static;
   }

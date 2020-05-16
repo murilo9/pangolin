@@ -7,11 +7,12 @@ export class GraphicEntity extends Entity {
   protected _sprite: Sprite;
   protected _vSpeed: number;
   protected _hSpeed: number;
+  protected _depth: number;
   
   public _visible: boolean;
 
-  constructor(sprite: Sprite, x: number = 0, y: number = 0, vSpeed: number = 0,
-  hSpeed: number = 0, visible: boolean = true){
+  constructor(sprite: Sprite, x: number = 0, y: number = 0, depth: number = 0, 
+  vSpeed: number = 0, hSpeed: number = 0, visible: boolean = true){
     super();
     this._x = x;
     this._y = y;
@@ -19,6 +20,7 @@ export class GraphicEntity extends Entity {
     this._vSpeed = vSpeed;
     this._hSpeed = hSpeed;
     this._visible = visible;
+    this._depth = depth;
   }
 
   /**

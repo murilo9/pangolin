@@ -21,6 +21,10 @@ export class Player extends pangolin.PhysicEntity {
     let startX = 100;
     let startY = 105;
     const collisionMask = new pangolin.CircleCollisionMask(startX, startY, 8);
-    super(sprite, collisionMask, false, startX, startY, 0, 0.5);
+    super(sprite, collisionMask, false, startX, startY, 0, 0, 0.5);
+  }
+
+  run(){
+    this._depth = this._y;
   }
 }

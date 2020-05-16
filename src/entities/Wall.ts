@@ -6,6 +6,6 @@ export class Wall extends pangolin.PhysicEntity {
     let startX = 500;
     let startY = 100;
     const collisionMask = new pangolin.CircleCollisionMask(startX, startY, 8);
-    super(sprite, collisionMask, true, startX, startY);
+    super(sprite, collisionMask, true, startX, startY, startY);
   }
 }

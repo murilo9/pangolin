@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --development",
+    "build": "webpack --mode=development",
     "start": "http-server ./dist"
   },
   "keywords": [],

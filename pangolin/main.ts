@@ -75,7 +75,11 @@ export class Game{
     ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
-    this._instance.currentRoom.entities.forEach((entity) =>{
+    //Sorts entities by depth:
+    let sortedEntities = this._instance.currentRoom.getDrawableEntities()
+    .sort((entityA, entityB) => entityA._get('_depth') - entityB._get('_depth'));
+    //Iterate drawable entities and render them:
+    sortedEntities.forEach((entity) =>{
       if(entity instanceof GraphicEntity){
         let sprite = entity._getSprite();
         let tile = this.getCachedTile(sprite.getTile());
