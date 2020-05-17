@@ -2,14 +2,17 @@ import {GraphicEntity} from './GraphicEntity';
 import {Circle} from './collisions/src/Collisions';
 import {Sprite} from './Sprite';
 
-export class CollisionMask {
+export abstract class CollisionMask {
   public instance;
 }
 
 export class CircleCollisionMask extends CollisionMask {
-  constructor(x: number, y: number,radius: number){
+  public scale: number;
+
+  constructor(x: number, y: number,radius: number, scale: number = 1){
     super();
-    this.instance = new Circle(x, y, radius);
+    this.scale = scale;
+    this.instance = new Circle(x, y, radius, scale);
   }
 }
 
@@ -44,6 +47,15 @@ export class PhysicEntity extends GraphicEntity {
    */
   public getCollisionMask(): CollisionMask{
     return this._collisionMask;
+  }
+
+  public setCollisionMaskScale(arg1: number = null, arg2: number = null){
+    if(this._collisionMask.instance instanceof CircleCollisionMask){
+      this._collisionMask.instance.scale = arg1;
+    }
+    else if(this._collisionMask.instance instanceof PolygonCollisionMask){
+      //TODO
+    }
   }
 
   /**

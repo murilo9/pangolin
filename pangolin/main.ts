@@ -94,8 +94,8 @@ export class Game{
         let sy = tileIndex.y * tile.getSizeY();
         let sWidth = tile.getSizeX();
         let sHeight = tile.getSizeY();
-        let dx = entity._get('_x') - sprite.getXPivot();
-        let dy = entity._get('_y') - sprite.getYPivot();
+        let dx = entity._get('_x') - (sprite.getXPivot() * sprite.getXScale());
+        let dy = entity._get('_y') - (sprite.getYPivot() * sprite.getYScale());
         let rotation = sprite.getRotation();
         let flipHor = sprite.getFlipHor();
         let flipVer = sprite.getFlipVer();
