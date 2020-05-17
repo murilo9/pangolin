@@ -13,14 +13,19 @@ export class Sprite {
   private rotation: number;
   private flipVer: boolean;
   private flipHor: boolean;
+  private xPivot: number;
+  private yPivot: number;
 
-  constructor(tileName: string, tileIndex: ITileIndex, xScale: number = 1, yScale: number = 1, 
-  rotation: number = 0, flipVer: boolean = false, flipHor: boolean = false){
+  constructor(tileName: string, tileIndex: ITileIndex, xScale: number = 1, 
+  yScale: number = 1, rotation: number = 0, xPivot: number = 0, 
+  yPivot: number = 0, flipVer: boolean = false, flipHor: boolean = false){
     this.tile = tileName;
     this.tileIndex = tileIndex;
     this.xScale = xScale;
     this.yScale = yScale;
     this.rotation = rotation;
+    this.xPivot = xPivot;
+    this.yPivot = yPivot;
     this.flipHor = flipHor;
     this.flipVer = flipVer;
   }
@@ -51,5 +56,13 @@ export class Sprite {
 
   getFlipHor(): boolean{
     return this.flipHor;
+  }
+
+  getXPivot(): number{
+    return this.xPivot;
+  }
+
+  getYPivot(): number{
+    return this.yPivot;
   }
 }

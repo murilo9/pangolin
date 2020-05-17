@@ -17,9 +17,9 @@ const standingFrames = [
 export class Player extends pangolin.PhysicEntity {
 
   constructor(){
-    const sprite = new pangolin.Animation('mainTile', animFrames, 5, 1, 1);
-    let startX = 100;
-    let startY = 105;
+    const sprite = new pangolin.Animation('mainTile', animFrames, 5, 1, 1, 0, 8, 24);
+    let startX = 50;
+    let startY = 50;
     const collisionMask = new pangolin.CircleCollisionMask(startX, startY, 8);
     super(sprite, collisionMask, false, startX, startY, 0, 0, 0.5);
   }

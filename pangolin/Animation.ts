@@ -8,8 +8,8 @@ export class Animation extends Sprite {
 
   constructor(tile: string, animationIndexes: Array<ITileIndex>, 
   speed: number, xScale: number = 1, yScale: number = 1, rotation: number = 0, 
-  flipVer: boolean = false, flipHor: boolean = false){
-    super(tile, animationIndexes[0], xScale, yScale, rotation, flipVer, flipHor);
+  xPivot: number = 0, yPivot: number = 0, flipVer: boolean = false, flipHor: boolean = false){
+    super(tile, animationIndexes[0], xScale, yScale, rotation, xPivot, yPivot, flipVer, flipHor);
     this.animationIndexes = animationIndexes;
     this.animationFrame = 0;
     this.speed = speed;

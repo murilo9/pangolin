@@ -7,6 +7,10 @@ import { PhysicEntity } from "./PhysicEntity";
 import { Sprite } from "./Sprite";
 import gameSets from '../src/main';
 
+export interface IGameConfig {
+  showCollisionBoxes: boolean
+}
+
 export class Game{
 
   private static _instance: Game;
@@ -14,6 +18,7 @@ export class Game{
   private gameCanvas: HTMLCanvasElement;
   private cachedTiles;
   private currentRoom: Room;
+  private config: IGameConfig = {showCollisionBoxes: true};
 
   private constructor(){
     this.gameCanvas = document.getElementById('game-canvas') as HTMLCanvasElement;
@@ -53,7 +58,7 @@ export class Game{
         entity._refreshPosition();
       }
     })
-    this._instance.currentRoom._handleCollisions(this._instance.gameCanvas);
+    this._instance.currentRoom._handleCollisions();
   }
 
   /**
@@ -89,8 +94,8 @@ export class Game{
         let sy = tileIndex.y * tile.getSizeY();
         let sWidth = tile.getSizeX();
         let sHeight = tile.getSizeY();
-        let dx = entity._get('_x');
-        let dy = entity._get('_y');
+        let dx = entity._get('_x') - sprite.getXPivot();
+        let dy = entity._get('_y') - sprite.getYPivot();
         let rotation = sprite.getRotation();
         let flipHor = sprite.getFlipHor();
         let flipVer = sprite.getFlipVer();
@@ -98,6 +103,13 @@ export class Game{
         let dHeight = sprite.getYScale() * (flipVer ? -sHeight : sHeight);
         ctx.rotate(rotation * Math.PI / 180);
         ctx.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        if(this._instance.config.showCollisionBoxes){
+          ctx.strokeStyle = '#FFFFFF';
+          ctx.beginPath();
+          let collider = entity.getCollisionMask().instance;
+          collider.draw(ctx);
+          ctx.stroke();
+        }
         ctx.restore();
       }
     })

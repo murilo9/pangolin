@@ -34,10 +34,8 @@ export class Room {
 
   /**
    * Process all room collisions.
-   * @param canvas For debugging entities' collision boxes
    */
-  public _handleCollisions(canvas: HTMLCanvasElement){
-    const ctx = canvas.getContext('2d');
+  public _handleCollisions(){
     this.collisionSystem.update();
     const result = this.collisionSystem.createResult();
     this.entities.forEach(entity => {
