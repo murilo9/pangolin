@@ -1,9 +1,21 @@
 import {GraphicEntity} from './GraphicEntity';
-import {Circle} from './collisions/src/Collisions';
+import {Circle, Polygon} from './collisions/src/Collisions';
 import {Sprite} from './Sprite';
 
 export abstract class CollisionMask {
-  public instance;
+  /**
+   * @type {Circle || Polygon}
+   */
+  public instance: {
+    scale: number, 
+    scale_x: number, 
+    scale_y: number,
+    x: number,
+    y: number,
+    draw: Function,
+    potentials: any,
+    collides: any
+  };
 }
 
 export class CircleCollisionMask extends CollisionMask {
@@ -17,7 +29,16 @@ export class CircleCollisionMask extends CollisionMask {
 }
 
 export class PolygonCollisionMask extends CollisionMask {
+  public xScale: number;
+  public yScale: number;
 
+  constructor(x: number, y: number, points: Array<number[]>, rotation: number = 0,
+  xScale: number = 1, yScale: number = 1){
+    super();
+    this.xScale = xScale;
+    this.yScale = yScale;
+    this.instance = new Polygon(x, y, points, rotation, xScale, yScale);
+  }
 }
 
 export class PhysicEntity extends GraphicEntity {
@@ -54,7 +75,8 @@ export class PhysicEntity extends GraphicEntity {
       this._collisionMask.instance.scale = arg1;
     }
     else if(this._collisionMask.instance instanceof PolygonCollisionMask){
-      //TODO
+      this._collisionMask.instance.scale_x = arg1;
+      this._collisionMask.instance.scale_y = arg2;
     }
   }
 
