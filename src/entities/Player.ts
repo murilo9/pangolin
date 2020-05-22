@@ -1,4 +1,5 @@
 import pangolin from '../../pangolin/index';
+import { Game } from '../../pangolin/main';
 
 const animFrames = [
   {x: 10, y: 1},
@@ -15,6 +16,7 @@ const standingFrames = [
 ]
 
 export class Player extends pangolin.PhysicEntity {
+  private speed: number;
 
   constructor(){
     let scaleX = 2;
@@ -23,10 +25,27 @@ export class Player extends pangolin.PhysicEntity {
     let startX = 50;
     let startY = 80;
     const collisionMask = new pangolin.CircleCollisionMask(startX, startY, 8, scaleY);
-    super(sprite, collisionMask, false, startX, startY, 0, 0, 0.5);
+    super(sprite, collisionMask, false, startX, startY, 0);
+    this.speed = 1;
   }
 
   run(){
     this._depth = this._y;
+    let xAxis = 0;
+    let yAxis = 0;
+    if(Game.isKeyPressed('a')){
+      xAxis -= 1;
+    }
+    if(Game.isKeyPressed('d')){
+      xAxis += 1;
+    }
+    if(Game.isKeyPressed('s')){
+      yAxis += 1;
+    }
+    if(Game.isKeyPressed('w')){
+      yAxis -= 1;
+    }
+    this._hSpeed = xAxis * this.speed;
+    this._vSpeed = yAxis * this.speed;
   }
 }

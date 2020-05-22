@@ -14,7 +14,10 @@ export interface IGameConfig {
 export class Game{
 
   private static _instance: Game;
+  private static keyUpEvent: KeyboardEvent;
+  private static keyDownEvent: KeyboardEvent;
 
+  private pressedKeys: any;
   private gameCanvas: HTMLCanvasElement;
   private cachedTiles;
   private currentRoom: Room;
@@ -26,9 +29,10 @@ export class Game{
     this.gameCanvas.style.background = '#ccc';
     this.gameCanvas.width = 800;
     this.gameCanvas.height = 600;
-    //Carrega os tiles pro cache:
+    this.pressedKeys = {};
+    //Load tiles to cache:
     this.cachedTiles = gameSets.tiles;
-    //Carrega o room inicial:
+    //Loads initial room:
     this.currentRoom = gameSets.configs.initialRoom;
   }
 
@@ -37,22 +41,25 @@ export class Game{
    */
   public static init(){
     this._instance = new Game();
+    //Initializes the keyboard events listener:
+    document.addEventListener('keyup', (e) => this.handleKeyupEvent(e));
+    document.addEventListener('keydown', (e) => this.handleKeydownEvent(e));
   }
 
   /**
    * Runs the current cycle. Called at setInterval() outside Game class every frame.
    */
   public static _run(){
-    this._moveEntities();
-    this._runEntities();
-    this._renderEntities();
+    this.moveEntities();
+    this.runEntities();
+    this.renderEntities();
   }
 
   /**
    * Iterates every Graphic/Physic entity of current room at current cycle to 
    * refresh their _x, _y position in function of their _vSpeed and _hSpeed.
    */
-  private static _moveEntities(){
+  private static moveEntities(){
     this._instance.currentRoom.entities.forEach(entity => {
       if(entity instanceof GraphicEntity || entity instanceof PhysicEntity){
         entity._refreshPosition();
@@ -64,7 +71,7 @@ export class Game{
   /**
    * Runs the run() of literally every entity of the current room at current cycle.
    */
-  private static _runEntities(){
+  private static runEntities(){
     this._instance.currentRoom.entities.forEach(entity => {
       entity.run();
     })
@@ -74,7 +81,7 @@ export class Game{
    * Iterates every Graphic/Physic entity of the current room and draw 
    * their sprite/animation frame at current cycle.
    */
-  private static _renderEntities(){
+  private static renderEntities(){
     const canvas = this._instance.gameCanvas;
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
@@ -117,6 +124,31 @@ export class Game{
 
   public static getCachedTile(name: string): Tile{
     return this._instance.cachedTiles[name];
+  }
+
+  /**
+   * Check if a key is being pressed.
+   * @param key Key (ex: 'q', 'F5', '9', 'Shift')
+   */
+  public static isKeyPressed(key: string): boolean{
+    return this._instance.pressedKeys[key];
+  }
+
+  /**
+   * Passes the keyup event to this.keyUpEvent so it may be pssed to entities.
+   * @param e Event
+   */
+  private static handleKeyupEvent(e: KeyboardEvent){
+    this._instance.pressedKeys[e.key] = false;
+    this._instance.currentRoom.entities.forEach(entity => entity.onKeyUp(e))
+  }
+  /**
+   * Passes the keydown event to this.keyDownEvent so it may be pssed to entities.
+   * @param e Event
+   */
+  private static handleKeydownEvent(e: KeyboardEvent){
+    this._instance.pressedKeys[e.key] = true;
+    this._instance.currentRoom.entities.forEach(entity => entity.onKeyDown(e))
   }
 }
 
