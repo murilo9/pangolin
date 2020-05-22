@@ -122,6 +122,10 @@ export class Game{
     })
   }
 
+  /**
+   * Returns a cached tile to be assigned to a sprite or animation.
+   * @param name The registered tile name.
+   */
   public static getCachedTile(name: string): Tile{
     return this._instance.cachedTiles[name];
   }

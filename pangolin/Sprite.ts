@@ -6,15 +6,15 @@ export interface ITileIndex{
 }
 
 export class Sprite {
-  private tile: string;
-  private tileIndex: ITileIndex;
-  private xScale: number;
-  private yScale: number;
-  private rotation: number;
-  private flipVer: boolean;
-  private flipHor: boolean;
-  private xPivot: number;
-  private yPivot: number;
+  private tile: string;   //Sprite tile name (must be registered on cached tiles)
+  private tileIndex: ITileIndex;  //Sprite tile index
+  private xScale: number;   //Sprite x axis drawing scale
+  private yScale: number;   //Sprite y axis drawing scale
+  private rotation: number;   //Sprite rotation
+  private flipVer: boolean;   //Flip sprite vertically?
+  private flipHor: boolean;   //Flip sprite horizontally?
+  private xPivot: number;   //Sprite x axis drawing origin
+  private yPivot: number;   //Sprite y axis drawing origin
 
   constructor(tileName: string, tileIndex: ITileIndex, xScale: number = 1, 
   yScale: number = 1, rotation: number = 0, xPivot: number = 0, 
@@ -30,6 +30,9 @@ export class Sprite {
     this.flipVer = flipVer;
   }
 
+  /**
+   * Returns the registered cached tile name of the sprite
+   */
   getTile(): string{
     return this.tile;
   }

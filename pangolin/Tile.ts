@@ -1,7 +1,7 @@
 export class Tile {
-  element: HTMLImageElement;
-  xSize: number;
-  ySize: number;
+  private element: HTMLImageElement;
+  private xSize: number;
+  private ySize: number;
 
   constructor(imgSrc: string, xSize: number, ySize: number){
     this.element = document.createElement('img');
