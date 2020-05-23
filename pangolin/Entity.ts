@@ -1,3 +1,5 @@
+import { Game } from "./main"
+
 export class Entity {
   public run(){}
 
@@ -12,4 +14,16 @@ export class Entity {
    * @param keyEvent Event
    */
   public onKeyDown(keyEvent: KeyboardEvent){}
+
+  /**
+   * Trigered by Game if the mouse has been clicked anywhere.
+   * @param mouseEvent Event
+   */
+  public onGlobalMouseUp(mouseEvent: MouseEvent){}
+  
+  /**
+   * Triggered by Game if the mouse has been realeased anywhere.
+   * @param mouseEvent Event
+   */
+  public onGlobalMouseDown(mouseEvent: MouseEvent){}
 }

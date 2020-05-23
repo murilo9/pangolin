@@ -8,13 +8,18 @@ export interface IGameConfig {
   showCollisionBoxes: boolean
 }
 
+export interface IMouseStatus {
+  leftButtonPressed: Boolean,
+  rightButtonPressed: Boolean,
+  middleButtonPressed: Boolean,
+  x: Number,
+  y: Number
+}
+
 export class Game{
 
-  private static _instance: Game;
-  private static keyUpEvent: KeyboardEvent;
-  private static keyDownEvent: KeyboardEvent;
-
   private static pressedKeys: any;
+  private static mouseStatus: IMouseStatus;
   private static gameCanvas: HTMLCanvasElement;
   private static cachedTiles;
   private static currentRoom: Room;
@@ -39,9 +44,20 @@ export class Game{
     this.cachedTiles = gameSets.tiles;
     //Loads initial room:
     this.currentRoom = gameSets.configs.initialRoom;
+    //Initializes mouseStatus:
+    this.mouseStatus = {
+      leftButtonPressed: false,
+      rightButtonPressed: false,
+      middleButtonPressed: false,
+      x: 0,
+      y: 0
+    };
     //Initializes the keyboard events listener:
     document.addEventListener('keyup', (e) => this.handleKeyupEvent(e));
     document.addEventListener('keydown', (e) => this.handleKeydownEvent(e));
+    document.addEventListener('mousedown', (e) => this.handleMouseDownEvent(e));
+    document.addEventListener('mouseup', (e) => this.handleMouseUpEvent(e));
+    document.addEventListener('mousemove', (e) => this.trackMousePosition(e));
   }
 
   /**
@@ -51,6 +67,11 @@ export class Game{
     this.moveEntities();
     this.runEntities();
     this.renderEntities();
+  }
+
+  private static trackMousePosition(mouseEvent: MouseEvent){
+    this.mouseStatus.x = mouseEvent.offsetX;
+    this.mouseStatus.y = mouseEvent.offsetY;
   }
 
   /**
@@ -136,6 +157,10 @@ export class Game{
     return this.pressedKeys[key];
   }
 
+  public static getMouseStatus(): IMouseStatus{
+    return {...this.mouseStatus};
+  }
+
   /**
    * Passes the keyup event to this.keyUpEvent so it may be pssed to entities.
    * @param e Event
@@ -151,6 +176,28 @@ export class Game{
   private static handleKeydownEvent(e: KeyboardEvent){
     this.pressedKeys[e.key] = true;
     this.currentRoom.entities.forEach(entity => entity.onKeyDown(e))
+  }
+
+  private static handleMouseDownEvent(e: MouseEvent){
+    switch(e.button){
+      case 0: this.mouseStatus.leftButtonPressed = true; break;
+      case 1: this.mouseStatus.middleButtonPressed = true; break;
+      case 2: this.mouseStatus.rightButtonPressed = true; break;
+    }
+    this.mouseStatus.x = e.offsetX;
+    this.mouseStatus.y = e.offsetY;
+    this.currentRoom.entities.forEach(entity => entity.onGlobalMouseDown(e));
+  }
+
+  private static handleMouseUpEvent(e: MouseEvent){
+    switch(e.button){
+      case 0: this.mouseStatus.leftButtonPressed = false; break;
+      case 1: this.mouseStatus.middleButtonPressed = false; break;
+      case 2: this.mouseStatus.rightButtonPressed = false; break;
+    }
+    this.mouseStatus.x = e.offsetX;
+    this.mouseStatus.y = e.offsetY;
+    this.currentRoom.entities.forEach(entity => entity.onGlobalMouseUp(e));
   }
 }
 
